@@ -51,9 +51,9 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-ssh admin@google_compute_instance.default.network_interface.0.access_config.0.nat_ip
-register FNDN var.email
-var.password
+ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
+register FNDN ${var.email}
+${var.password}
 EOH
   }
 }
