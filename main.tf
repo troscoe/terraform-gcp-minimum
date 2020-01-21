@@ -1,3 +1,11 @@
+variable "email" {
+  type = string
+}
+
+variable "password" {
+  type = string
+}
+
 provider "google" {
   project     = "fortinet-nse-ins-1491332429129"
   region      = "us-east4"
