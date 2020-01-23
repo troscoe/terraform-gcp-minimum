@@ -40,7 +40,7 @@ output "instance_ip_addr" {
 }
 
 #STATE
-terrafrom {
+terraform {
   backend "s3" {
     bucket = "com-fortinet-training-terraform-state-ca-central-1"
     key = "terraform-gcp-minimum/terraform.tfstate"
