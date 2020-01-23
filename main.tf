@@ -44,6 +44,6 @@ terraform {
   backend "s3" {
     bucket = "com-fortinet-training-terraform-state-ca-central-1"
     key = "terraform-gcp-minimum/terraform.tfstate"
-    region = "us-west-2"
+    region = "ca-central-1"
   }
 }
