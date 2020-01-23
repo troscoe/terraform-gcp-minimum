@@ -11,7 +11,7 @@ data "google_compute_image" "fortipoc" {
 }
 
 resource "google_compute_instance" "default" {
-  name         = "fortipoc-".var.username
+  name         = join("-", ["fortipoc",var.username])
   machine_type = "n1-standard-4"
   zone         = "us-east4-a"
 
