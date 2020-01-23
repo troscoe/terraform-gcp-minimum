@@ -1,11 +1,3 @@
-variable "email" {
-  type = string
-}
-
-variable "password" {
-  type = string
-}
-
 provider "google" {
   project     = "fortinet-nse-ins-1491332429129"
   region      = "us-east4"
@@ -41,16 +33,8 @@ resource "google_compute_instance" "default" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
+}
 
-  provisioner "remote-exec" {
-    connection {
-      host        = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
-      type        = "ssh"
-      user        = "admin"
-    }
-    inline = [
-      "register FNDN ${var.email}",
-      "${var.password}"
-    ]
-  }
+output "instance_ip_addr" {
+  value = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
 }
