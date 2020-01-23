@@ -1,3 +1,6 @@
+variable "username" {
+  type = string
+}
 provider "google" {
   project     = "fortinet-nse-ins-1491332429129"
   region      = "us-east4"
@@ -8,7 +11,7 @@ data "google_compute_image" "fortipoc" {
 }
 
 resource "google_compute_instance" "default" {
-  name         = "fortipoc-troscoe"
+  name         = "fortipoc-".var.username
   machine_type = "n1-standard-4"
   zone         = "us-east4-a"
 
