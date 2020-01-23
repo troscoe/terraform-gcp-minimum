@@ -43,7 +43,7 @@ output "instance_ip_addr" {
 terraform {
   backend "s3" {
     bucket = "com-fortinet-training-terraform-state-ca-central-1"
-    key = "terraform-gcp-minimum/terraform.tfstate"
+    key = "global/fortipoc/terraform.tfstate"
     region = "ca-central-1"
   }
 }
