@@ -42,7 +42,7 @@ output "instance_ip_addr" {
 #STATE
 terraform {
   backend "s3" {
-    bucket = "com-fortinet-training-terraform-state-ca-central-1/fortipoc"
+    bucket = "com-fortinet-training-terraform-state-ca-central-1"
     key = "terraform.tfstate"
     region = "ca-central-1"
   }
