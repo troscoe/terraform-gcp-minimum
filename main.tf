@@ -4,6 +4,9 @@ variable "username" {
 variable "enrol-id" {
   type = number  
 }
+variable "sshpassword" {
+  type = string
+}
 provider "google" {
   project     = "fortinet-nse-ins-1491332429129"
   region      = "us-east4"
@@ -47,10 +50,13 @@ resource "google_compute_instance" "default" {
       host        = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
       type        = "ssh"
       user        = "admin"
+      password    = var.sshpassword
     }
   }
   provisioner "local-exec" {
     command = <<EOH
+      apt-get install sshpass
+      sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       poc launch 1
       EOH
