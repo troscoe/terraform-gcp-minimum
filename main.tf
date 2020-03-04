@@ -10,7 +10,7 @@ provider "google" {
 }
 
 data "google_compute_image" "fortipoc" {
-  name = "fortidemo-nse7-lab-62"
+  name = "fortipoc"
 }
 
 resource "google_compute_instance" "default" {
@@ -43,13 +43,4 @@ resource "google_compute_instance" "default" {
 
 output "instance_ip_addr" {
   value = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
-}
-
-#STATE
-terraform {
-  backend "s3" {
-    bucket = "com-fortinet-training-terraform-state-ca-central-1"
-    key = "terraform.tfstate"
-    region = "ca-central-1"
-  }
 }
