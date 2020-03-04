@@ -41,6 +41,20 @@ resource "google_compute_instance" "default" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
+  
+  provisioner "remote-exec" {
+    connection {
+      host        = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
+      type        = "ssh"
+      user        = "admin"
+    }
+  }
+  provisioner "local-exec" {
+    command = <<EOH
+      ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
+      poc launch 1
+      EOH
+  }
 }
 
 output "instance_ip_addr" {
