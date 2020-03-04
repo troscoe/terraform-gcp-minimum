@@ -52,9 +52,18 @@ resource "google_compute_instance" "default" {
       user        = "admin"
       password    = var.sshpassword
     }
-    inline = [
-      "poc launch 1"
-    ]
+  }
+  provisioner "local-exec" {
+    command = <<EOH
+      apt-get source sshpass
+      cd sshpass
+      ./configure --prefix=$HOME
+      make
+      make install
+      sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
+      ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
+      poc launch 1
+      EOH
   }
 }
 
