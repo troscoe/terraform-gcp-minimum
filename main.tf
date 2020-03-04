@@ -10,7 +10,7 @@ provider "google" {
 }
 
 data "google_compute_image" "fortipoc" {
-  name = "fortipoc"
+  name = "fortidemo-nse-sdwan-lab-62"
 }
 
 resource "google_compute_instance" "default" {
@@ -24,7 +24,7 @@ resource "google_compute_instance" "default" {
     initialize_params {
       size  = 400
       type  = "pd-standard"
-      image = data.google_compute_image.fortidemo-nse-sdwan-lab-62.self_link
+      image = data.google_compute_image.fortipoc.self_link
     }
   }
 
