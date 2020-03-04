@@ -17,6 +17,8 @@ resource "google_compute_instance" "default" {
   name         = join("-", ["fortipoc",var.username,var.enrol-id])
   machine_type = "n1-standard-8"
   zone         = "us-east4-a"
+  
+  allow_stopping_for_update = true
 
   tags = ["http-server", "https-server"]
 
