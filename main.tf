@@ -13,7 +13,7 @@ provider "google" {
 }
 
 data "google_compute_image" "fortipoc" {
-  name = "nse7-lab-62-rc6-17-auto"
+  name = "fortidemo-nse7-lab-62-auto"
 }
 
 resource "google_compute_instance" "default" {
@@ -52,6 +52,12 @@ resource "google_compute_instance" "default" {
       user        = "admin"
       password    = var.sshpassword
     }
+  }
+  provisioner "local-exec" {
+    command = <<EOH
+      ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
+      poc launch 1
+      EOH
   }
 }
 
