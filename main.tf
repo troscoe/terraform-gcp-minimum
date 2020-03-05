@@ -58,7 +58,7 @@ resource "google_compute_instance" "default" {
       wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
       tar -xvf sshpass.tar.gz
       ls
-      cd sshpass
+      cd sshpass-1.06
       ./configure --prefix=$HOME
       make
       make install
