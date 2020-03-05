@@ -59,9 +59,9 @@ resource "google_compute_instance" "default" {
       tar -xvf gsrc-1.0.1.tar.gz
       cd gsrc-1.0.1/
       ./bootstrap
-      ./configure --prefix=$HOME/gnu
+      ./configure --prefix=$HOME
       . ./setup.sh
-      install gsrc
+      install gsrc -d $HOME
       cd ..
       wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
       tar -xvf sshpass.tar.gz
