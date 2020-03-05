@@ -54,10 +54,7 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      ssh -tt -o StrictHostKeyChecking=no admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip} "poc launch 1
-      set password ${var.sshpassword}
-      \n
-      \n"
+      ssh -tt -o StrictHostKeyChecking=no admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip} "poc launch 1"
       EOH
   }
 }
