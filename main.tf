@@ -67,7 +67,7 @@ resource "google_compute_instance" "default" {
       cd sshpass-1.06
       ./configure --prefix=$HOME
       make -C sshpass-1.06
-      $ make -C sshpass-1.06 install
+      make -C sshpass-1.06 install
       sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       poc launch 1
