@@ -53,12 +53,6 @@ resource "google_compute_instance" "default" {
       password    = var.sshpassword
     }
   }
-  provisioner "local-exec" {
-    command = <<EOH
-      echo "${var.sshpassword}" | ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
-      poc launch 1
-      EOH
-  }
 }
 
 output "instance_ip_addr" {
