@@ -55,7 +55,8 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      bzr checkout --lightweight bzr://bzr.savannah.gnu.org/gsrc/trunk/ gsrc
+      http://ftp.gnu.org/gnu/gsrc/gsrc-1.0.1.tar.gz
+      ls
       cd gsrc/
       ./bootstrap
       ./configure --prefix=$HOME/gnu
