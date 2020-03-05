@@ -55,7 +55,7 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      http://ftp.gnu.org/gnu/gsrc/gsrc-1.0.1.tar.gz
+      wget http://ftp.gnu.org/gnu/gsrc/gsrc-1.0.1.tar.gz
       ls
       cd gsrc/
       ./bootstrap
