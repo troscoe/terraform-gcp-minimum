@@ -55,9 +55,10 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      apt-get download bzr
-      dpkg -x bzr_2.6.0+bzr6593-1ubuntu1.1_all.deb
-      mv etc usr ~/.localRootFolder
+      export PATH=$PATH:/home/terraform/.local/bin
+      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      python get-pip.py --user
+      pip install --user bzr
       bzr checkout bzr://bzr.savannah.gnu.org/gsrc/trunk/ gsrc
       cd gsrc/
       ./bootstrap
