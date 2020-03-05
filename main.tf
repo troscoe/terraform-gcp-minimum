@@ -55,17 +55,18 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      wget http://ftp.gnu.org/gnu/gsrc/gsrc-1.0.1.tar.gz
-      tar -xvf gsrc-1.0.1.tar.gz
-      cd gsrc-1.0.1/
+      apt-get download bzr
+      dpkg -x bzr_2.6.0+bzr6593-1ubuntu1.1_all.deb
+      mv etc usr ~/.localRootFolder
+      bzr checkout bzr://bzr.savannah.gnu.org/gsrc/trunk/ gsrc
+      cd gsrc/
       ./bootstrap
-      ./configure --prefix=$HOME
+      ./configure --prefix=$HOME/gnu
       . ./setup.sh
-      install gsrc -d $HOME
+      install gsrc
       wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
       tar -xvf sshpass.tar.gz
       cd sshpass-1.06
-      ./configure --prefix=$HOME
       make -C sshpass-1.06
       make -C sshpass-1.06 install
       sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
