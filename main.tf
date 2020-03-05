@@ -55,8 +55,15 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
+      wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
+      tar -xvf sshpass.tar.gz
+      ls
+      cd sshpass
+      ./configure --prefix=$HOME
+      make
+      make install
+      sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
-      ${var.sshpassword}
       poc launch 1
       EOH
   }
