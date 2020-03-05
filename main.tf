@@ -55,24 +55,7 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
-      export PATH=$PATH:/home/terraform/.local/bin
-      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-      python get-pip.py --user
-      pip install --user bzr
-      bzr checkout bzr://bzr.savannah.gnu.org/gsrc/trunk/ gsrc
-      cd gsrc/
-      ./bootstrap
-      ./configure --prefix=$HOME/gnu
-      . ./setup.sh
-      install gsrc
-      wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
-      tar -xvf sshpass.tar.gz
-      cd sshpass-1.06
-      make -C sshpass-1.06
-      make -C sshpass-1.06 install
-      sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
-      ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
-      poc launch 1
+      expect -c 'spawn ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip} "poc launch 1"; expect "assword:"; send "${var.sshpassword}\r"; interact'
       EOH
   }
 }
