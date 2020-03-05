@@ -62,13 +62,12 @@ resource "google_compute_instance" "default" {
       ./configure --prefix=$HOME
       . ./setup.sh
       install gsrc -d $HOME
-      cd ..
       wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz
       tar -xvf sshpass.tar.gz
       cd sshpass-1.06
       ./configure --prefix=$HOME
-      make
-      make install
+      make -C sshpass-1.06
+      $ make -C sshpass-1.06 install
       sshpass -p ${var.sshpassword} ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}
       poc launch 1
