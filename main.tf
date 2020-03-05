@@ -55,6 +55,21 @@ resource "google_compute_instance" "default" {
   }
   provisioner "local-exec" {
     command = <<EOH
+      wget http://prdownloads.sourceforge.net/tcl/tcl8.5.15-src.tar.gz
+wget http://downloads.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz
+
+tar xzf tcl8.5.15-src.tar.gz
+cd tcl8.5.15/unix
+./configure --prefix=$HOME/local
+make
+make install
+cd ../../
+
+tar xzf expect5.45.tar.gz
+cd expect5.45
+./configure --prefix=$HOME/local
+make
+make install
       expect -c 'spawn ssh admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip} "poc launch 1"; expect "assword:"; send "${var.sshpassword}\r"; interact'
       EOH
   }
