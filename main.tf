@@ -13,7 +13,7 @@ provider "google" {
 }
 
 data "google_compute_image" "fortipoc" {
-  name = "fortidemo-nse7-lab-62"
+  name = "nse7-lab-62-rc6-17-auto"
 }
 
 resource "google_compute_instance" "default" {
