@@ -50,7 +50,6 @@ resource "google_compute_instance" "default" {
       host        = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
       type        = "ssh"
       user        = "admin"
-      password    = var.sshpassword
     }
   }
   provisioner "local-exec" {
