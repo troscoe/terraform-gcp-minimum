@@ -13,7 +13,7 @@ provider "google" {
 }
 
 data "google_compute_image" "fortipoc" {
-  name = "fortidemo-nse7-lab-62-auto"
+  name = "fortidemo-nse7-lab-62"
 }
 
 data "google_service_account" "myaccount" {
@@ -58,12 +58,14 @@ resource "google_compute_instance" "default" {
       host        = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
       type        = "ssh"
       user        = "admin"
+      password    = var.sshpassword
     }
   }
   provisioner "local-exec" {
     command = <<EOH
-      ssh -tt -o StrictHostKeyChecking=no admin@${google_compute_instance.default.network_interface.0.access_config.0.nat_ip} "poc launch 1"
-      EOH
+curl -d '{"username":"admin","password":"${var.sshpassword}"}' -H 'Content-Type: application/json' -c cookie.txt -k https://${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}/api/v0/login
+curl -d '{"poc": 1}' -H 'Content-Type: application/json' --cookie cookie.txt -k https://35.245.105.119/api/v0/poc/launch
+EOH
   }
 }
 
