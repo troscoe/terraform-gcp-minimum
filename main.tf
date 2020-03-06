@@ -51,15 +51,6 @@ resource "google_compute_instance" "default" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
-  
-  provisioner "local-exec" {
-    command = <<EOH
-curl -H 'Content-Type: application/json' -c cookies.txt -b cookies.txt -k https://${google_compute_address.static.address}/api/v0/login -d '{"username":"admin","password":"${var.sshpassword}"}'
-srftoken=`grep csrftoken cookies.txt | cut -f 7`
-sleep 10
-curl -H "X-Fortipoc-Csrftoken: $srftoken" -H 'Content-Type: application/json' -c cookies.txt -b cookies.txt -e https://${google_compute_address.static.address} -k https://${google_compute_address.static.address}/api/v0/poc/launch -d '{"poc":"1"}'
-EOH
-  }
 }
 
 resource "null_resource" "stop_instance" {
