@@ -24,10 +24,6 @@ resource "google_service_account_key" "mykey" {
   service_account_id = data.google_service_account.myaccount.name
 }
 
-resource "google_compute_address" "static" {
-  name = "ipv4-address"
-}
-
 resource "google_compute_instance" "default" {
   name         = join("-", ["fortipoc",var.username,var.enrol-id])
   machine_type = "n1-standard-16"
@@ -74,6 +70,23 @@ EOH
   }
 }
 
-output "instance_ip_addr" {
-  value = google_compute_address.static.address
+resource "null_resource" "stop_instance" {
+  provisioner "local-exec" {
+    command     = <<EOH
+export PATH="/terraform/google-cloud-sdk/bin:$PATH"
+wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-283.0.0-linux-x86_64.tar.gz
+tar -xf google-cloud-sdk-283.0.0-linux-x86_64.tar.gz
+cd google-cloud-sdk
+./install.sh
+cat >> /terraform/google-cloud-sdk/key.json <<EOL
+${base64decode(google_service_account_key.mykey.private_key)}
+EOL
+gcloud auth activate-service-account --key-file=/terraform/google-cloud-sdk/key.json
+gcloud compute instances stop ${google_compute_instance.default.name} --zone ${google_compute_instance.default.zone}
+EOH
+  }
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }
