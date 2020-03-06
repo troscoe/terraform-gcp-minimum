@@ -16,6 +16,14 @@ data "google_compute_image" "fortipoc" {
   name = "fortidemo-nse7-lab-62-auto"
 }
 
+data "google_service_account" "myaccount" {
+  account_id = "terraform"
+}
+
+resource "google_service_account_key" "mykey" {
+  service_account_id = data.google_service_account.myaccount.name
+}
+
 resource "google_compute_instance" "default" {
   name         = join("-", ["fortipoc",var.username,var.enrol-id])
   machine_type = "n1-standard-16"
