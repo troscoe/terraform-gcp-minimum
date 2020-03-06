@@ -52,14 +52,6 @@ resource "google_compute_instance" "default" {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
   
-  provisioner "remote-exec" {
-    connection {
-      host        = google_compute_address.static.address
-      type        = "ssh"
-      user        = "admin"
-      password    = var.sshpassword
-    }
-  }
   provisioner "local-exec" {
     command = <<EOH
 curl -H 'Content-Type: application/json' -c cookies.txt -b cookies.txt -k https://${google_compute_address.static.address}/api/v0/login -d '{"username":"admin","password":"${var.sshpassword}"}'
