@@ -64,7 +64,7 @@ resource "google_compute_instance" "default" {
   provisioner "local-exec" {
     command = <<EOH
 curl -d '{"username":"admin","password":"${var.sshpassword}"}' -H 'Content-Type: application/json' -c cookie.txt -k https://${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}/api/v0/login
-curl -d '{"poc": 1}' -H 'Content-Type: application/json' --cookie cookie.txt -k https://35.245.105.119/api/v0/poc/launch
+curl -d '{"poc": 1}' -H 'Content-Type: application/json' --cookie cookie.txt -k https://${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}/api/v0/poc/launch
 EOH
   }
 }
